@@ -29,7 +29,7 @@ type Character = {
 const fetchCharacters = createAsyncThunk(
   'characters/fetchCharacters',
   async () => {
-    const { data } = await axios.get('https://rickandmortyapi.com/api/character/1,2,3,4');
+    const { data } = await axios.get('https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10');
     return data;
   },
 );
@@ -37,12 +37,15 @@ const fetchCharacters = createAsyncThunk(
 interface CharactersState {
   characters: Character[];
   loading: true | false;
+  activeCharacter: number;
   errors?: string | null; // optional field
 }
 
 const initialState = {
   characters: [],
   loading: false,
+  activeCharacter: 1,
+  errors: null,
 } as CharactersState;
 
 const CharactersSlice = createSlice({
@@ -67,5 +70,5 @@ const CharactersSlice = createSlice({
 });
 
 export { fetchCharacters };
-export const charactersSelector = (state: RootState) => state.characters;
+export const charactersSelector = (state: RootState) => state.charactersStore;
 export default CharactersSlice.reducer;
