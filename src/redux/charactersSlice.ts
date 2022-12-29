@@ -44,7 +44,7 @@ interface CharactersState {
 const initialState = {
   characters: [],
   loading: false,
-  activeCharacter: 1,
+  activeCharacter: 0,
   errors: null,
 } as CharactersState;
 

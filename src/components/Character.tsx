@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 import { charactersSelector } from '../redux/charactersSlice';
 
 const Character = () => {
-  const { characters } = useSelector(charactersSelector);
-  // console.log(characters);
-  const targetChar = characters[0];
+  const { characters, activeCharacter } = useSelector(charactersSelector);
+  const targetChar = characters[activeCharacter];
 
   return (
     <div className="grid-container">
@@ -20,21 +19,32 @@ const Character = () => {
           />
           <ul>
             <li>
-              {`Name: ${targetChar.name}`}
+              <p>
+                <b>Name: </b>
+                {targetChar.name}
+              </p>
             </li>
             <li>
-              <p>{`Gender: ${targetChar.gender}`}</p>
+              <p>
+                <b>Gender: </b>
+                {targetChar.gender}
+              </p>
             </li>
             <li>
-              <p>{`Species: ${targetChar.species}`}</p>
+              <p>
+                <b>Species: </b>
+                {targetChar.species}
+              </p>
             </li>
             <li>
-              <p>{`Status: ${targetChar.status}`}</p>
+              <p>
+                <b>Status: </b>
+                {targetChar.status}
+              </p>
             </li>
           </ul>
         </>
       )}
-      <button className="button" type="button">Click Me!</button>
     </div>
   );
 };
