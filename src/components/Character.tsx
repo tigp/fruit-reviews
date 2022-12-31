@@ -6,6 +6,7 @@ import { charactersSelector } from '../redux/charactersSlice';
 const Character = () => {
   const { characters, activeCharacter } = useSelector(charactersSelector);
   const targetChar = characters[activeCharacter];
+  console.log(targetChar);
 
   return (
     <div className="grid-container">
