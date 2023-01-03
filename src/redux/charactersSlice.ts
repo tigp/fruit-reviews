@@ -1,7 +1,6 @@
 /* eslint no-param-reassign: "error" */
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import { RootState } from './index';
 
@@ -28,8 +27,13 @@ type Character = {
 
 const fetchCharacters = createAsyncThunk(
   'characters/fetchCharacters',
-  async () => {
-    const { data } = await axios.get('https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10');
+  async (_, { rejectWithValue }) => {
+    const url = 'https://rickandmortyapi.com/api/character/1,2,3,4,5,7,8,9,10,11,12,13,14,15';
+    const response = await fetch(url);
+    if (response.status !== 200) {
+      return rejectWithValue('Failed to fetch data!');
+    }
+    const data = await response.json();
     return data;
   },
 );
@@ -38,14 +42,14 @@ interface CharactersState {
   characters: Character[];
   loading: true | false;
   activeCharacter: number;
-  errors?: string | null; // optional field
+  error?: null | string;
 }
 
 const initialState = {
   characters: [],
   loading: false,
   activeCharacter: 0,
-  errors: null,
+  error: null,
 } as CharactersState;
 
 const charactersSlice = createSlice({
@@ -65,15 +69,17 @@ const charactersSlice = createSlice({
     builder
       .addCase(fetchCharacters.pending, (state) => {
         state.loading = true;
-        state.errors = null;
       })
       .addCase(fetchCharacters.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.characters = payload;
+        state.error = null;
       })
-      .addCase(fetchCharacters.rejected, (state) => {
+      .addCase(fetchCharacters.rejected, (state, { payload }: any) => {
         state.loading = false;
-        // state.errors = null; add errors
+        if (payload) {
+          state.error = payload.message;
+        }
       });
   },
 });
