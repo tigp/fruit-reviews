@@ -1,6 +1,6 @@
 /* eslint no-param-reassign: "error" */
 
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import { RootState } from './index';
@@ -48,10 +48,19 @@ const initialState = {
   errors: null,
 } as CharactersState;
 
-const CharactersSlice = createSlice({
+const charactersSlice = createSlice({
   name: 'characters',
   initialState,
-  reducers: {},
+  reducers: {
+    switchCharacter: (state, { payload }: PayloadAction<number>) => {
+      state.activeCharacter += payload;
+      if (state.activeCharacter >= state.characters.length) {
+        state.activeCharacter = 0;
+      } else if (state.activeCharacter < 0) {
+        state.activeCharacter = state.characters.length - 1;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCharacters.pending, (state) => {
@@ -70,5 +79,6 @@ const CharactersSlice = createSlice({
 });
 
 export { fetchCharacters };
+export const { switchCharacter } = charactersSlice.actions;
 export const charactersSelector = (state: RootState) => state.charactersStore;
-export default CharactersSlice.reducer;
+export default charactersSlice.reducer;

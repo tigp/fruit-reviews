@@ -1,13 +1,18 @@
 import React from 'react';
 import { GrLinkPrevious, GrLinkNext } from 'react-icons/gr';
+import { useDispatch } from 'react-redux';
+
+import { switchCharacter } from '../redux/charactersSlice';
 
 const Button = (prop: { buttonName: string }) => {
+  const dispatch = useDispatch();
   const { buttonName } = prop;
-  const click = (): void => console.log(`${buttonName} clicked!`);
+
+  const toggleButton = () => (buttonName === 'Previous' ? dispatch(switchCharacter(-1)) : dispatch(switchCharacter(1)));
 
   return (
     <button
-      onClick={click}
+      onClick={toggleButton}
       className="btn"
       type="button"
     >
