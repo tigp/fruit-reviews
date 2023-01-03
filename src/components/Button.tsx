@@ -8,7 +8,9 @@ const Button = (prop: { buttonName: string }) => {
   const dispatch = useDispatch();
   const { buttonName } = prop;
 
-  const toggleButton = () => (buttonName === 'Previous' ? dispatch(switchCharacter(-1)) : dispatch(switchCharacter(1)));
+  const toggleButton = () => (
+    buttonName === 'Previous' ? dispatch(switchCharacter(-1)) : dispatch(switchCharacter(1))
+  );
 
   return (
     <button
